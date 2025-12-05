@@ -2,8 +2,6 @@ import React, { Suspense } from "react";
 import Crop from "../Crop/Crop";
 
 const Latest = ({ data }) => {
-  console.log(data);
-
   return (
     <div className="w-11/12 mx-auto mt-20">
       {/* cards */}

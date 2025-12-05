@@ -1,9 +1,11 @@
 import React, { use } from "react";
 import { AuthContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
+import { useNavigate } from "react-router";
 
 const AddCrops = () => {
   const { user } = use(AuthContext);
+  const navigate = useNavigate();
   const handleSubmit = (e) => {
     e.preventDefault();
 
@@ -34,7 +36,7 @@ const AddCrops = () => {
       .then((res) => res.json())
       .then((d) => {
         toast.success("Successfully added!");
-        console.log(d);
+        navigate("/myPosts");
       })
       .catch((err) => {
         console.log(err);

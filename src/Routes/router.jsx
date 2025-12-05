@@ -66,8 +66,6 @@ export const router = createBrowserRouter([
             <CropDetails />
           </PrivateRoute>
         ),
-        loader: ({ params }) =>
-          fetch(`http://localhost:3000/crops/${params.id}`),
       },
 
       {

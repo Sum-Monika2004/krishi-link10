@@ -10,7 +10,7 @@ import { RiseLoader } from "react-spinners";
 const Header = () => {
   const { user, signoutUserFunc, setUser, loading, setLoading } =
     use(AuthContext);
-  console.log(loading);
+  // console.log(loading);
 
   const handleSignOut = () => {
     signoutUserFunc()
@@ -126,12 +126,9 @@ const Header = () => {
               <button
                 popoverTarget="popover-1"
                 style={{ anchorName: "--anchor-1" }}
+                className="bg-yellow-800 hover:bg-yellow-700 text-white btn w-full"
               >
-                <img
-                  src={user?.photoURL || "https://via.placeholder.com/88"}
-                  className="h-[45px] w-[45px] object-cover rounded-full mx-auto mt-3"
-                  alt=""
-                />
+                Sign Out
               </button>
 
               <div
@@ -140,11 +137,17 @@ const Header = () => {
                 id="popover-1"
                 style={{ positionAnchor: "--anchor-1" }}
               >
+                <img
+                  src={user?.photoURL || "https://via.placeholder.com/88"}
+                  className="h-[45px] w-[45px] object-cover rounded-full mx-auto mt-3"
+                  alt=""
+                />
+
                 <h2 className="text-xl font-semibold">{user?.displayName}</h2>
                 <p className="text-gray-400">{user?.email}</p>
                 <button
                   onClick={handleSignOut}
-                  className="bg-green-700 text-white btn w-full"
+                  className="bg-yellow-700 text-white btn w-full"
                 >
                   Sign Out
                 </button>

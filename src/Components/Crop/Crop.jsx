@@ -2,8 +2,6 @@ import React from "react";
 import { Link } from "react-router";
 
 const Crop = ({ singleCrop }) => {
-  // console.log(singleCrop);
-
   return (
     <div className="bg-white rounded-xl shadow-xl">
       <div className="p-8 flex-row">

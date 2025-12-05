@@ -7,7 +7,6 @@ import { Link, useLoaderData } from "react-router";
 
 const Home = () => {
   const data = useLoaderData();
-  console.log(data);
 
   return (
     <div className="w-11/12 mx-auto">
@@ -20,7 +19,7 @@ const Home = () => {
         <div className="mt-8 ">
           <Link to="/AllCrops">
             <button className="btn text-[#be721b] font-semibold flex gap-1 mx-auto">
-              <span>All Crops</span> <img src="" alt="" />
+              <span>All Crops</span>
             </button>
           </Link>
         </div>
