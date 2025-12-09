@@ -26,7 +26,7 @@ const Header = () => {
 
   const links = (
     <>
-      <nav className="flex">
+      <nav className="flex text-nowrap">
         <NavLink to="/">
           <li className="m-2 text-[18px] font-semibold ">Home</li>
         </NavLink>
@@ -36,7 +36,7 @@ const Header = () => {
         </NavLink>
 
         {user ? (
-          <div className="dropdown dropdown-start ">
+          <div className="dropdown dropdown-start relative z-50">
             <div
               tabIndex={0}
               role="button"
@@ -53,7 +53,7 @@ const Header = () => {
             </div>
             <ul
               tabIndex="-1"
-              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm"
+              className="dropdown-content menu bg-base-100 rounded-box z-1 w-52 p-2 shadow-sm "
             >
               <NavLink to="/profile">
                 <li className="m-2 text-[18px] font-semibold">Profile</li>
@@ -80,7 +80,7 @@ const Header = () => {
     <div className="shadow-md bg-white ">
       <div className="navbar mx-auto max-w-[1200px]">
         <div className="navbar-start ">
-          <div className="dropdown">
+          <div className="dropdown ">
             <div tabIndex={0} role="button" className="btn btn-ghost lg:hidden">
               <svg
                 xmlns="http://www.w3.org/2000/svg"

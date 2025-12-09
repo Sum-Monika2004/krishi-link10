@@ -2,6 +2,7 @@ import React, { use, useContext, useEffect, useState } from "react";
 import { Link, useLoaderData, useNavigate, useParams } from "react-router";
 import { AuthContext } from "../../Context/AuthContext";
 import { toast } from "react-toastify";
+import Swal from "sweetalert2";
 
 const CropDetails = () => {
   const [crop, setCrop] = useState({});
@@ -21,6 +22,34 @@ const CropDetails = () => {
   }, []);
 
   // const [loading, setLoading] = useState(true);
+
+  const [quantity, setQuantity] = useState(0);
+  const [totalPrice, setTotalPrice] = useState(0);
+
+  const [interests, setInterests] = useState([]);
+  useEffect(() => {
+    if (crop?.interests) {
+      setInterests(crop.interests);
+    }
+  }, [crop]);
+
+  const handleRejected = (index) => {
+    const updated = [...interests];
+    updated[index].status = "rejected";
+    setInterests(updated);
+  };
+  const handleAccepted = (index) => {
+    const updated = [...interests];
+    updated[index].status = "accepted";
+    setInterests(updated);
+  };
+
+  const handleQuantityChange = (e) => {
+    const q = Number(e.target.value);
+
+    setQuantity(q);
+    setTotalPrice(q * crop.pricePerUnit);
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -53,13 +82,62 @@ const CropDetails = () => {
     })
       .then((res) => res.json())
       .then((d) => {
+        if (!d.success) {
+          Swal.fire({
+            icon: "error",
+            title: "Oops...",
+
+            text: d.message,
+          });
+          return;
+        }
         toast.success("Successfully added!");
-        navigate("/");
+        navigate("/myInterests");
         console.log(d);
       })
       .catch((err) => {
         console.log(err);
       });
+
+    // Swal.fire({
+    //   title: "Are you sure?",
+    //   text: "You won't be able to undo this action!",
+    //   icon: "warning",
+    //   showCancelButton: true,
+    //   confirmButtonColor: "#3085d6",
+    //   cancelButtonColor: "#d33",
+    //   confirmButtonText: "Yes, continue!",
+    //   cancelButtonText: "Cancel",
+    // }).then((result) => {
+    //   if (result.isConfirmed) {
+    //     // 👉 Action after confirm
+    //     fetch(`http://localhost:3000/interests/${crop._id}`, {
+    //       method: "POST",
+    //       headers: {
+    //         "Content-Type": "application/json",
+    //       },
+    //       body: JSON.stringify(formData),
+    //     })
+    //       .then((res) => res.json())
+    //       .then((d) => {
+    //         if (!d.success) {
+    //           Swal.fire({
+    //             icon: "error",
+    //             title: "Oops...",
+    //             text: d.message,
+    //           });
+    //           return;
+    //         }
+    //         toast.success("Successfully added!");
+    //         navigate("/");
+    //         console.log(d);
+    //       })
+    //       .catch((err) => {
+    //         console.log(err);
+    //       });
+    //     console.log("User clicked Yes");
+    //   }
+    // });
   };
 
   return (
@@ -121,60 +199,149 @@ const CropDetails = () => {
         </div>
       </div>
       <div className="mx-auto max-w-10/12">
-        <div className="card-body p-6 relative ">
-          <h2 className="font-bold text-5xl  mb-5 mt-8 text-center">
-            Interest
-          </h2>
-          <form
-            onSubmit={handleSubmit}
-            className="space-y-4  bg-white p-8 rounded-2xl"
-          >
-            {/* Quantity Field */}
-            <div>
-              <label className="label font-medium">Quantity</label>
-              <input
-                type="text"
-                name="quantity"
-                required
-                className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
-                placeholder="Estimated quantity"
-              />
-            </div>
-
-            {/* Message Textarea */}
-            <div>
-              <label className="label font-medium"> Message</label>
-              <textarea
-                name="message"
-                required
-                rows="3"
-                className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[250px]"
-                placeholder="Sent message"
-              ></textarea>
-            </div>
-
-            {/* Price Field */}
-            <div>
-              <label className="label font-medium">Total Price</label>
-              <input
-                type="text"
-                name="price"
-                required
-                className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
-                placeholder="Total Price"
-              />
-            </div>
-
-            {/* Submit Button */}
-
-            <button
-              type="submit"
-              className="btn text-white mt-6 rounded-full bg-yellow-800 hover:bg-yellow-700 "
+        {user.email !== crop?.owner?.ownerEmail ? (
+          <div className="card-body p-6 relative ">
+            <h2 className="font-bold text-5xl  mb-5 mt-8 text-center">
+              Interest
+            </h2>
+            <form
+              onSubmit={handleSubmit}
+              className="space-y-4  bg-white p-8 rounded-2xl"
             >
-              Submit Interest
-            </button>
-          </form>
-        </div>
+              {/* Quantity Field */}
+              <div>
+                <label className="label font-medium">Quantity</label>
+                <input
+                  type="number"
+                  required
+                  name="quantity"
+                  value={quantity}
+                  onChange={handleQuantityChange}
+                  className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
+                  placeholder="Estimated quantity"
+                />
+              </div>
+
+              {/* Message Textarea */}
+              <div>
+                <label className="label font-medium"> Message</label>
+                <textarea
+                  name="message"
+                  required
+                  rows="3"
+                  className="textarea w-full rounded-2xl focus:border-0 focus:outline-gray-200 h-[250px]"
+                  placeholder="Sent message"
+                ></textarea>
+              </div>
+
+              {/* Price Field */}
+              <div>
+                <label className="label font-medium">Total Price</label>
+                <input
+                  type="text"
+                  readOnly
+                  value={totalPrice}
+                  name="price"
+                  required
+                  className="input w-full rounded-full focus:border-0 focus:outline-gray-200"
+                  placeholder="Total Price"
+                />
+              </div>
+
+              {/* Submit Button */}
+
+              <button
+                type="submit"
+                className="btn text-white mt-6 rounded-full bg-yellow-800 hover:bg-yellow-700 "
+              >
+                Submit Interest
+              </button>
+            </form>
+          </div>
+        ) : (
+          <div>
+            {" "}
+            <h2 className="font-bold text-5xl  mb-5 mt-8 text-center">
+              Manage Received Interests
+            </h2>
+            <table className="w-full ">
+              <thead className="bg-white ">
+                <tr>
+                  <th className="border border-gray-100 p-3">Sl No.</th>
+                  <th className="border border-gray-100 p-3">Buyer Name</th>
+                  <th className="border border-gray-100 p-3">Quantity</th>
+                  <th className="border border-gray-100 p-3">Message</th>
+                  <th className="border border-gray-100 p-3">Status</th>
+                  <th className="border border-gray-100 p-3">Action</th>
+                </tr>
+              </thead>
+
+              <tbody className="bg-white ">
+                {interests.length > 0 ? (
+                  interests.map((item, index) => (
+                    <tr key={index}>
+                      <td className="border border-gray-100 p-3">
+                        {index + 1}
+                      </td>
+                      <td className="border border-gray-100 p-3">
+                        {item.userName}
+                      </td>
+                      <td className="border border-gray-100 p-3">
+                        {item.quantity}
+                      </td>
+                      <td className="border border-gray-100 p-3">
+                        {item.message}
+                      </td>
+
+                      <td className="border border-gray-100 p-3 capitalize">
+                        {item.status}
+                      </td>
+
+                      <td className="border border-gray-100 p-3 space-x-2 font-semibold flex items-center justify-center">
+                        <div>
+                          <button
+                            onClick={() => handleAccepted(index)}
+                            disabled={item.status !== "pending"}
+                            className={`btn text-white ${
+                              item.status === "accepted"
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-green-500"
+                            }`}
+                          >
+                            Accept
+                          </button>
+                        </div>
+
+                        <div>
+                          <button
+                            onClick={() => handleRejected(index)}
+                            disabled={item.status !== "pending"}
+                            className={`btn text-white ${
+                              item.status === "rejected"
+                                ? "bg-gray-400 cursor-not-allowed"
+                                : "bg-red-500"
+                            }`}
+                          >
+                            Reject
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ))
+                ) : (
+                  <tr>
+                    <td
+                      colSpan="6"
+                      className="text-center border border-gray-100 p-4 text-gray-500"
+                    >
+                      No interest yet
+                    </td>
+                  </tr>
+                )}
+              </tbody>
+            </table>
+          </div>
+        )}
       </div>
     </div>
   );

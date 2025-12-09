@@ -17,6 +17,7 @@ const MyInterests = () => {
       .then((res) => res.json())
       .then((data) => {
         setCrops(data);
+        console.log(data);
       });
   }, [user]);
 
