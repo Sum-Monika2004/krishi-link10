@@ -17,7 +17,7 @@ const PostCard = ({ singleCrop }) => {
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://localhost:3000/my-posts/${_id}`, {
+        fetch(`https://krishi-link10-server.vercel.app/my-posts/${_id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

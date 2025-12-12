@@ -10,7 +10,7 @@ const CropDetails = () => {
   const navigate = useNavigate();
   const { id } = useParams();
   useEffect(() => {
-    fetch(`http://localhost:3000/crops/${id}`, {
+    fetch(`https://krishi-link10-server.vercel.app/crops/${id}`, {
       headers: {
         authorization: `Bearer ${user.accessToken}`,
       },
@@ -73,7 +73,7 @@ const CropDetails = () => {
       status: "pending",
     };
 
-    fetch(`http://localhost:3000/interests/${crop._id}`, {
+    fetch(`https://krishi-link10-server.vercel.app/interests/${crop._id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -111,7 +111,7 @@ const CropDetails = () => {
     // }).then((result) => {
     //   if (result.isConfirmed) {
     //     // 👉 Action after confirm
-    //     fetch(`http://localhost:3000/interests/${crop._id}`, {
+    //     fetch(`https://krishi-link10-server.vercel.app/interests/${crop._id}`, {
     //       method: "POST",
     //       headers: {
     //         "Content-Type": "application/json",

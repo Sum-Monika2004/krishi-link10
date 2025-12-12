@@ -9,11 +9,14 @@ const MyInterests = () => {
   const [crops, setCrops] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3000/my-interests?email=${user.email}`, {
-      headers: {
-        authorization: `Bearer ${user.accessToken}`,
-      },
-    })
+    fetch(
+      `https://krishi-link10-server.vercel.app/my-interests?email=${user.email}`,
+      {
+        headers: {
+          authorization: `Bearer ${user.accessToken}`,
+        },
+      }
+    )
       .then((res) => res.json())
       .then((data) => {
         setCrops(data);

@@ -23,10 +23,10 @@ const AddCrops = () => {
         ownerEmail: user.email,
         ownerName: user.displayName,
       },
-      interests: {},
+      interests: [],
     };
 
-    fetch("http://localhost:3000/crops", {
+    fetch("https://krishi-link10-server.vercel.app/crops", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

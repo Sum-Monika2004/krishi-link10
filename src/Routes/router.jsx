@@ -20,12 +20,13 @@ export const router = createBrowserRouter([
         index: true,
         Component: Home,
         path: "/",
-        loader: () => fetch("http://localhost:3000/latest-crops"),
+        loader: () =>
+          fetch("https://krishi-link10-server.vercel.app/latest-crops"),
       },
       {
         path: "/AllCrops",
         Component: AllCrops,
-        loader: () => fetch("http://localhost:3000/crops"),
+        loader: () => fetch("https://krishi-link10-server.vercel.app/crops"),
       },
       {
         path: "/profile",
