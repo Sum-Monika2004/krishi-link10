@@ -23,7 +23,6 @@ const AddCrops = () => {
         ownerEmail: user.email,
         ownerName: user.displayName,
       },
-      interests: [],
     };
 
     fetch("https://krishi-link10-server.vercel.app/crops", {
